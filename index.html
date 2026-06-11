@@ -1,4 +1,9 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+  html, body {
+    touch-action: none;
+    overflow: hidden;
+  }
   #progress {
     position: fixed;
     top: 50%;
@@ -296,7 +301,7 @@
     tick();
     setInterval(tick, 1000 / 12);
 
-    document.addEventListener('mousedown', event => {
+    document.addEventListener('pointerdown', event => {
       const rect = stage.getBoundingClientRect();
       if (event.clientX < rect.left || event.clientX > rect.right ||
           event.clientY < rect.top  || event.clientY > rect.bottom) return;
@@ -317,16 +322,15 @@
       }
 
       function onUp() {
-        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('pointermove', onMove);
         if (dragging) {
           suppressNextClick = true;
           transitionTo(HangingReleaseState);
         }
       }
 
-      document.addEventListener('mousemove', onMove);
-      document.addEventListener('mouseup', onUp, { once: true });
-      event.preventDefault();
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp, { once: true });
     });
 
     document.addEventListener('click', event => {
