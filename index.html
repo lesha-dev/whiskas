@@ -115,7 +115,9 @@
   let moveRAF = null;
   let onAnimationEnd = null;
   let onAnimationLoop = null;
+  let onAnimationTick = null;
   let reversed = false;
+  let suppressNextClick = false;
 
   function setAnimation(name, onEnd, isReversed) {
     currentAnimation = ANIMATIONS.find(animation => animation.name === name);
@@ -206,6 +208,30 @@
     onClick(event) {}
   };
 
+  const HangingState = {
+    activate() {
+      setAnimation('sit_to_hang', () => setAnimation('hang'));
+    },
+    deactivate() {},
+    onClick(event) {}
+  };
+
+  const HangingReleaseState = {
+    activate() {
+      const animation = ANIMATIONS.find(a => a.name === 'sit_to_hang');
+      const dropPerFrame = stage.getBoundingClientRect().height / animation.frames.length;
+      onAnimationTick = () => {
+        posY += dropPerFrame;
+        applyPosition();
+      };
+      setAnimation('sit_to_hang', () => transitionTo(SittingState), true);
+    },
+    deactivate() {
+      onAnimationTick = null;
+    },
+    onClick(event) {}
+  };
+
   const StandingUpState = {
     // Plays the stand-up animation once, then heads to the click target.
     // Clicks during the animation just re-target without restarting it.
@@ -250,6 +276,7 @@
     } else {
       stage.style.transform = 'translate(' + frame.pivot.x + 'px, ' + (-frame.pivot.y) + 'px) scaleX(-1)';
     }
+    if (onAnimationTick) onAnimationTick();
     frameIndex++;
     if (frameIndex >= currentAnimation.frames.length) {
       if (onAnimationEnd) {
@@ -269,7 +296,44 @@
     tick();
     setInterval(tick, 1000 / 12);
 
+    document.addEventListener('mousedown', event => {
+      const rect = stage.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right ||
+          event.clientY < rect.top  || event.clientY > rect.bottom) return;
+
+      const startX = event.clientX;
+      const startY = event.clientY;
+      let dragging = false;
+
+      function onMove(event) {
+        if (!dragging) {
+          if (Math.hypot(event.clientX - startX, event.clientY - startY) < 5) return;
+          dragging = true;
+          transitionTo(HangingState);
+        }
+        posX = event.clientX;
+        posY = event.clientY;
+        applyPosition();
+      }
+
+      function onUp() {
+        document.removeEventListener('mousemove', onMove);
+        if (dragging) {
+          suppressNextClick = true;
+          transitionTo(HangingReleaseState);
+        }
+      }
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp, { once: true });
+      event.preventDefault();
+    });
+
     document.addEventListener('click', event => {
+      if (suppressNextClick) {
+        suppressNextClick = false;
+        return;
+      }
       currentState.onClick(event);
     });
   }

@@ -212,15 +212,15 @@ const ANIMATIONS =
       {
         "url": "hang/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 22,
+          "y": 5
         }
       },
       {
         "url": "hang/02.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 23,
+          "y": 5
         }
       }
     ]
@@ -876,36 +876,36 @@ const ANIMATIONS =
       {
         "url": "sit_to_hang/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
         "url": "sit_to_hang/02.svg",
         "pivot": {
-          "x": 45,
+          "x": 42,
           "y": 45
         }
       },
       {
         "url": "sit_to_hang/03.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 30,
+          "y": 2
         }
       },
       {
         "url": "sit_to_hang/04.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 21,
+          "y": 3
         }
       },
       {
         "url": "sit_to_hang/05.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 23,
+          "y": 3
         }
       }
     ]
