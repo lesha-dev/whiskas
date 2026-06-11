@@ -78,9 +78,10 @@
     pivot.style.display = 'block';
   }
 
-  const urls = ANIMATIONS.flatMap(animation => animation.frames.map(frame => frame.url));
+  const urls = [...new Set(ANIMATIONS.flatMap(animation => animation.frames.map(frame => frame.url)))];
   const total = urls.length;
   let loaded = 0;
+  const preloadedImages = [];
 
   function onFrameLoaded() {
     loaded++;
@@ -93,9 +94,9 @@
 
   urls.forEach(url => {
     const img = new Image();
-    img.onload = onFrameLoaded;
-    img.onerror = onFrameLoaded;
     img.src = url;
+    preloadedImages.push(img);
+    img.decode().then(onFrameLoaded).catch(onFrameLoaded);
   });
 
   let currentAnimation = null;
@@ -113,6 +114,7 @@
   }
   let moveRAF = null;
   let onAnimationEnd = null;
+  let onAnimationLoop = null;
   let reversed = false;
 
   function setAnimation(name, onEnd, isReversed) {
@@ -164,18 +166,44 @@
   const SittingState = {
     // withTransition replays the stand->sit animation when arriving from a move;
     // the initial sit (and re-entries) skip it and go straight to the idle loop.
+    LOOPS_BEFORE_SLEEP: 3,
     activate(withTransition) {
+      this.loopCount = 0;
+      onAnimationLoop = () => {
+        this.loopCount++;
+        if (this.loopCount >= this.LOOPS_BEFORE_SLEEP) transitionTo(SleepingState);
+      };
       if (withTransition) {
         setAnimation('sit_to_stand', () => setAnimation('sit'), true);
       } else {
         setAnimation('sit');
       }
     },
-    deactivate() {},
+    deactivate() {
+      onAnimationLoop = null;
+    },
     onClick(event) {
       if (isCloseToImage(event.clientX, event.clientY)) return;
       transitionTo(StandingUpState, event.clientX, event.clientY);
     }
+  };
+
+  const SleepingState = {
+    activate() {
+      setAnimation('sit_to_sleep', () => setAnimation('sleep'));
+    },
+    deactivate() {},
+    onClick(event) {
+      transitionTo(WakingUpState);
+    }
+  };
+
+  const WakingUpState = {
+    activate() {
+      setAnimation('sleep_to_sit', () => transitionTo(SittingState));
+    },
+    deactivate() {},
+    onClick(event) {}
   };
 
   const StandingUpState = {
@@ -213,29 +241,33 @@
     }
   };
 
+  function tick() {
+    const realIndex = reversed ? currentAnimation.frames.length - 1 - frameIndex : frameIndex;
+    const frame = currentAnimation.frames[realIndex];
+    stage.src = frame.url;
+    if (direction === 1) {
+      stage.style.transform = 'translate(' + (-frame.pivot.x) + 'px, ' + (-frame.pivot.y) + 'px)';
+    } else {
+      stage.style.transform = 'translate(' + frame.pivot.x + 'px, ' + (-frame.pivot.y) + 'px) scaleX(-1)';
+    }
+    frameIndex++;
+    if (frameIndex >= currentAnimation.frames.length) {
+      if (onAnimationEnd) {
+        const callback = onAnimationEnd;
+        onAnimationEnd = null;
+        callback();
+      } else {
+        frameIndex = 0;
+        if (onAnimationLoop) onAnimationLoop();
+      }
+    }
+  }
+
   function start() {
     transitionTo(SittingState);
     applyPosition();
-    setInterval(() => {
-      const realIndex = reversed ? currentAnimation.frames.length - 1 - frameIndex : frameIndex;
-      const frame = currentAnimation.frames[realIndex];
-      stage.src = frame.url;
-      if (direction === 1) {
-        stage.style.transform = 'translate(' + (-frame.pivot.x) + 'px, ' + (-frame.pivot.y) + 'px)';
-      } else {
-        stage.style.transform = 'translate(' + frame.pivot.x + 'px, ' + (-frame.pivot.y) + 'px) scaleX(-1)';
-      }
-      frameIndex++;
-      if (frameIndex >= currentAnimation.frames.length) {
-        if (onAnimationEnd) {
-          const callback = onAnimationEnd;
-          onAnimationEnd = null;
-          callback();
-        } else {
-          frameIndex = 0;
-        }
-      }
-    }, 1000 / 12);
+    tick();
+    setInterval(tick, 1000 / 12);
 
     document.addEventListener('click', event => {
       currentState.onClick(event);
