@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Frame Animator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #f4f4f0;
+    --surface: #ffffff;
+    --border: #d4d4cc;
+    --accent: #1a6b3c;
+    --accent-dim: #145530;
+    --text: #1a1a18;
+    --text-dim: #888;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 28px;
+    padding: 32px 16px;
+  }
+
+  /* ── Animation picker ── */
+  #anim-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .anim-btn {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .82rem;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .anim-btn:hover { border-color: var(--accent); }
+  .anim-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* ── Canvas area ── */
+  #stage-wrap {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 320px;
+  }
+
+  #top-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+  }
+
+  #stage {
+    position: relative;
+    width: 320px;
+    flex-shrink: 0;
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  /* img top-left (the pivot) is placed at stage center + shift via JS */
+  #frame-img {
+    position: absolute;
+    display: block;
+    outline: 1px solid red;
+  }
+
+  /* canvas for the pivot cross — covers full stage */
+  #pivot-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  #frame-label {
+    position: absolute;
+    bottom: 12px;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    color: rgba(26,107,60,.9);
+    letter-spacing: .04em;
+    pointer-events: none;
+    text-shadow: 0 1px 6px rgba(0,0,0,.8);
+  }
+
+  #preload-bar-wrap {
+    width: min(640px, 100%);
+    display: none;
+  }
+  #preload-bar-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .75rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  #preload-bar-bg {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  #preload-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width .1s;
+    border-radius: 2px;
+  }
+
+  /* ── Controls Panel ── */
+  #controls {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 28px;
+  }
+  #side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ctrl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .ctrl-group.full { grid-column: 1 / -1; }
+  .ctrl-group.inline-label-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .ctrl-group.inline-label-row > label {
+    flex-shrink: 0;
+    width: 60px;
+    margin: 0;
+  }
+  .ctrl-group.inline-label-row > select,
+  .ctrl-group.inline-label-row > .stepper-row {
+    flex: 1;
+  }
+
+  label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    color: var(--text-dim);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  /* number / text inputs */
+  input[type=number], input[type=text] {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .9rem;
+    padding: 8px 12px;
+    width: 100%;
+    outline: none;
+    transition: border-color .15s;
+    -moz-appearance: textfield;
+  }
+  input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  input[type=number]:focus, input[type=text]:focus {
+    border-color: var(--accent);
+  }
+
+  /* select */
+  select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .9rem;
+    padding: 8px 12px;
+    width: 100%;
+    outline: none;
+    cursor: pointer;
+    transition: border-color .15s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  select:focus { border-color: var(--accent); }
+
+  /* play button */
+  #play-btn {
+    grid-column: 1 / -1;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .88rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  #play-btn:hover { background: var(--accent-dim); }
+  #play-btn:active { transform: scale(.98); }
+
+  /* frame counter */
+  #frame-counter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .78rem;
+    color: var(--text-dim);
+    text-align: center;
+    grid-column: 1 / -1;
+    margin-top: -4px;
+  }
+  #frame-counter span { color: var(--text); }
+
+  /* shift inputs side by side */
+  .shift-row {
+    display: flex;
+    gap: 10px;
+  }
+  .shift-field { flex: 1; }
+
+  /* playback row */
+  .playback-row {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px;
+    grid-column: 1 / -1;
+  }
+  .playback-row #play-btn { flex: 1; }
+
+  .icon-btn {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .82rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+    white-space: nowrap;
+  }
+  .icon-btn:hover { border-color: var(--accent); background: var(--surface); }
+  .icon-btn:active { transform: scale(.97); }
+  .icon-btn.full { grid-column: 1 / -1; width: 100%; }
+
+  /* stepper */
+  .stepper-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .stepper-row input[type=number] { text-align: center; }
+  .step-btn {
+    flex-shrink: 0;
+    width: 32px; height: 34px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text);
+    transition: border-color .15s, background .15s;
+  }
+  .step-btn:hover { border-color: var(--accent); background: var(--surface); }
+  .step-btn:active { transform: scale(.95); }
+
+  #frame-counter { grid-column: 1 / -1; }
+
+  .check-group { justify-content: center; }
+  .check-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .82rem;
+    color: var(--text);
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .check-label input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- Animation picker -->
+<div id="anim-picker"></div>
+
+<!-- Preload progress -->
+<div id="preload-bar-wrap">
+  <div id="preload-bar-label">Loading frames… 0 / 0</div>
+  <div id="preload-bar-bg"><div id="preload-bar"></div></div>
+</div>
+
+<!-- Stage + Controls -->
+<div id="stage-wrap">
+  <div id="top-row">
+    <div id="stage">
+      <canvas id="prev-frame-canvas" style="display:none; position:absolute; opacity:0.5; pointer-events:none;"></canvas>
+      <img id="frame-img" src="" alt="frame">
+      <canvas id="pivot-canvas"></canvas>
+      <div id="frame-label"></div>
+    </div>
+
+    <div id="side-panel">
+      <button class="icon-btn" id="copy-btn">⎘ Copy JSON</button>
+    </div>
+  </div>
+
+  <div id="controls">
+    <!-- FPS -->
+    <div class="ctrl-group full inline-label-row">
+      <label>FPS</label>
+      <select id="fps-select">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+        <option value="10">10</option>
+        <option value="12" selected>12</option>
+        <option value="15">15</option>
+        <option value="18">18</option>
+        <option value="20">20</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="30">30</option>
+        <option value="36">36</option>
+        <option value="48">48</option>
+        <option value="50">50</option>
+        <option value="60">60</option>
+      </select>
+    </div>
+
+    <!-- Playback row -->
+    <div class="ctrl-group full playback-row">
+      <button class="icon-btn" id="prev-btn">&#8592; Prev</button>
+      <button id="play-btn">⏸ PAUSE</button>
+      <button class="icon-btn" id="next-btn">Next &#8594;</button>
+    </div>
+
+    <!-- Counter -->
+    <div id="frame-counter">frame <span id="cur-frame">1</span> / <span id="total-frames">0</span></div>
+
+    <!-- X pivot -->
+    <div class="ctrl-group full inline-label-row">
+      <label>Pivot X</label>
+      <div class="stepper-row">
+        <button class="step-btn" data-axis="x" data-delta="-1">−</button>
+        <input type="number" id="shift-x" value="0">
+        <button class="step-btn" data-axis="x" data-delta="1">+</button>
+      </div>
+    </div>
+
+    <!-- Y pivot -->
+    <div class="ctrl-group full inline-label-row">
+      <label>Pivot Y</label>
+      <div class="stepper-row">
+        <button class="step-btn" data-axis="y" data-delta="-1">−</button>
+        <input type="number" id="shift-y" value="0">
+        <button class="step-btn" data-axis="y" data-delta="1">+</button>
+      </div>
+    </div>
+
+    <!-- Copy pivot from previous frame -->
+    <button class="icon-btn full" id="copy-prev-pivot-btn">↑ Copy Pivot From Previous</button>
+
+    <!-- Show previous frame -->
+    <div class="ctrl-group full check-group">
+      <label class="check-label">
+        <input type="checkbox" id="show-prev">
+        Show previous frame
+      </label>
+    </div>
+  </div>
+</div>
+
+<script src="animations.js"></script>
+<script>
+
+  // ── State ──────────────────────────────────────────────────────────
+  let frames = [];
+  let currentIndex = 0;
+  let currentAnimIndex = 0;
+  let playing = true;
+  let intervalId = null;
+  let fps = 12;
+
+  // ── Elements ───────────────────────────────────────────────────────
+  const animPicker    = document.getElementById('anim-picker');
+  const stageWrap     = document.getElementById('stage-wrap');
+  const stage         = document.getElementById('stage');
+  const frameImg      = document.getElementById('frame-img');
+  const frameLabel    = document.getElementById('frame-label');
+  const pivotCanvas   = document.getElementById('pivot-canvas');
+  const prevFrameCanvas = document.getElementById('prev-frame-canvas');
+  const showPrevCheck = document.getElementById('show-prev');
+  const fpsSelect     = document.getElementById('fps-select');
+  const playBtn       = document.getElementById('play-btn');
+  const prevBtn       = document.getElementById('prev-btn');
+  const nextBtn       = document.getElementById('next-btn');
+  const curFrameEl    = document.getElementById('cur-frame');
+  const totalFramesEl = document.getElementById('total-frames');
+  const shiftXInput   = document.getElementById('shift-x');
+  const shiftYInput   = document.getElementById('shift-y');
+  const preloadWrap   = document.getElementById('preload-bar-wrap');
+  const preloadBar    = document.getElementById('preload-bar');
+  const preloadLabel  = document.getElementById('preload-bar-label');
+
+  // ── Picker ─────────────────────────────────────────────────────────
+  function buildPicker() {
+    animPicker.innerHTML = '';
+    ANIMATIONS.forEach((anim, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'anim-btn' + (i === currentAnimIndex ? ' active' : '');
+      btn.textContent = anim.name;
+      btn.addEventListener('click', () => loadAnimation(i));
+      animPicker.appendChild(btn);
+    });
+  }
+
+  function setActivePickerBtn(i) {
+    animPicker.querySelectorAll('.anim-btn').forEach((b, j) => {
+      b.classList.toggle('active', j === i);
+    });
+  }
+
+  // ── Load an animation by index ─────────────────────────────────────
+  function loadAnimation(animIdx) {
+    currentAnimIndex = animIdx;
+    setActivePickerBtn(animIdx);
+    stopAnimation();
+    frames = [];
+    currentIndex = 0;
+
+    const entries = ANIMATIONS[animIdx].frames;
+    const total = entries.length;
+    totalFramesEl.textContent = total;
+    stageWrap.style.display = 'none';
+    preloadWrap.style.display = 'block';
+    preloadBar.style.width = '0%';
+    preloadLabel.textContent = `Loading frames… 0 / ${total}`;
+
+    let loaded = 0;
+    const tempFrames = new Array(total);
+
+    entries.forEach((entry, i) => {
+      if (!entry.pivot) entry.pivot = { x: 0, y: 0 };
+      const name = entry.url.split('/').pop();
+      const img = new Image();
+      img.onload = img.onerror = () => {
+        loaded++;
+        preloadBar.style.width = (loaded / total * 100) + '%';
+        preloadLabel.textContent = `Loading frames… ${loaded} / ${total}`;
+        // Reference pivot directly — edits write back to ANIMATIONS automatically
+        tempFrames[i] = { name, url: entry.url, pivot: entry.pivot };
+        if (loaded === total) {
+          frames = tempFrames;
+          preloadWrap.style.display = 'none';
+          stageWrap.style.display = 'flex';
+          playing = true;
+          playBtn.textContent = '⏸ PAUSE';
+          showFrame(0);
+          startAnimation();
+        }
+      };
+      img.src = entry.url;
+    });
+  }
+
+  // ── Display ────────────────────────────────────────────────────────
+  function showFrame(idx) {
+    if (!frames.length) return;
+    idx = ((idx % frames.length) + frames.length) % frames.length;
+    const prevIdx = ((idx - 1) + frames.length) % frames.length;
+    currentIndex = idx;
+    frameImg.src = frames[idx].url;
+    frameLabel.textContent = frames[idx].name;
+    curFrameEl.textContent = idx + 1;
+
+    // Previous frame overlay
+    if (showPrevCheck.checked && frames.length > 1) {
+      const pf = frames[prevIdx];
+      const img = new Image();
+      img.onload = () => {
+        const px = stage.offsetWidth  / 2 - pf.pivot.x;
+        const py = stage.offsetHeight / 2 - pf.pivot.y;
+        prevFrameCanvas.width  = stage.offsetWidth;
+        prevFrameCanvas.height = stage.offsetHeight;
+        prevFrameCanvas.style.left = '0';
+        prevFrameCanvas.style.top  = '0';
+        prevFrameCanvas.style.display = 'block';
+        const ctx = prevFrameCanvas.getContext('2d');
+        ctx.clearRect(0, 0, prevFrameCanvas.width, prevFrameCanvas.height);
+        // Draw frame at its pivot position
+        ctx.drawImage(img, px, py);
+        // Tint red: multiply non-transparent pixels with red
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.fillStyle = 'red';
+        ctx.fillRect(0, 0, prevFrameCanvas.width, prevFrameCanvas.height);
+        ctx.globalCompositeOperation = 'source-over';
+      };
+      img.src = pf.url;
+    } else {
+      prevFrameCanvas.style.display = 'none';
+    }
+
+    shiftXInput.value = frames[idx].pivot.x;
+    shiftYInput.value = frames[idx].pivot.y;
+    applyShift();
+  }
+
+  function applyShift() {
+    const stageW = stage.offsetWidth;
+    const stageH = stage.offsetHeight;
+    const cx = stageW / 2;
+    const cy = stageH / 2;
+    const { x, y } = frames[currentIndex]?.pivot ?? { x: 0, y: 0 };
+
+    // Image top-left placed at center minus pivot (pivot = offset of anchor on image)
+    frameImg.style.left = (cx - x) + 'px';
+    frameImg.style.top  = (cy - y) + 'px';
+
+    // Cross always drawn at exact stage center
+    pivotCanvas.width  = stageW;
+    pivotCanvas.height = stageH;
+    const ctx = pivotCanvas.getContext('2d');
+    ctx.clearRect(0, 0, stageW, stageH);
+    const ARM = 12;
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - ARM, cy);
+    ctx.lineTo(cx + ARM, cy);
+    ctx.moveTo(cx, cy - ARM);
+    ctx.lineTo(cx, cy + ARM);
+    ctx.stroke();
+  }
+
+  // ── Animation Loop ─────────────────────────────────────────────────
+  function startAnimation() {
+    stopAnimation();
+    intervalId = setInterval(() => {
+      showFrame(currentIndex + 1);
+    }, 1000 / fps);
+  }
+
+  function stopAnimation() {
+    if (intervalId) { clearInterval(intervalId); intervalId = null; }
+  }
+
+  // ── Controls ───────────────────────────────────────────────────────
+  function pausePlayback() {
+    if (playing) {
+      playing = false;
+      stopAnimation();
+      playBtn.textContent = '▶ PLAY';
+    }
+  }
+
+  document.getElementById('copy-prev-pivot-btn').addEventListener('click', () => {
+    if (!frames.length) return;
+    const prevIdx = ((currentIndex - 1) + frames.length) % frames.length;
+    const prev = frames[prevIdx].pivot;
+    frames[currentIndex].pivot.x = prev.x;
+    frames[currentIndex].pivot.y = prev.y;
+    shiftXInput.value = prev.x;
+    shiftYInput.value = prev.y;
+    applyShift();
+  });
+
+  showPrevCheck.addEventListener('change', () => showFrame(currentIndex));
+
+  fpsSelect.addEventListener('change', () => {
+    fps = parseInt(fpsSelect.value);
+    if (playing) startAnimation();
+  });
+
+  playBtn.addEventListener('click', () => {
+    playing = !playing;
+    if (playing) {
+      startAnimation();
+      playBtn.textContent = '⏸ PAUSE';
+    } else {
+      stopAnimation();
+      playBtn.textContent = '▶ PLAY';
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    pausePlayback();
+    showFrame(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    pausePlayback();
+    showFrame(currentIndex + 1);
+  });
+
+  shiftXInput.addEventListener('input', () => {
+    if (!frames[currentIndex]) return;
+    frames[currentIndex].pivot.x = parseFloat(shiftXInput.value) || 0;
+    applyShift();
+  });
+
+  shiftYInput.addEventListener('input', () => {
+    if (!frames[currentIndex]) return;
+    frames[currentIndex].pivot.y = parseFloat(shiftYInput.value) || 0;
+    applyShift();
+  });
+
+  document.querySelectorAll('.step-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!frames[currentIndex]) return;
+      const delta = parseInt(btn.dataset.delta);
+      if (btn.dataset.axis === 'x') {
+        frames[currentIndex].pivot.x += delta;
+        shiftXInput.value = frames[currentIndex].pivot.x;
+      } else {
+        frames[currentIndex].pivot.y += delta;
+        shiftYInput.value = frames[currentIndex].pivot.y;
+      }
+      applyShift();
+    });
+  });
+
+  // Keyboard: Space = play/pause, arrow keys = step frames
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.code === 'Space') { e.preventDefault(); playBtn.click(); }
+    if (e.code === 'ArrowRight') { stopAnimation(); showFrame(currentIndex + 1); if (playing) startAnimation(); }
+    if (e.code === 'ArrowLeft')  { stopAnimation(); showFrame(currentIndex - 1); if (playing) startAnimation(); }
+  });
+
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    const json = JSON.stringify(ANIMATIONS, null, 2);
+    navigator.clipboard.writeText(json).then(() => {
+      const btn = document.getElementById('copy-btn');
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = orig; }, 1500);
+    });
+  });
+
+  // ── Init ───────────────────────────────────────────────────────────
+  buildPicker();
+  loadAnimation(0);
+
+
+</script>
+</body>
+</html>

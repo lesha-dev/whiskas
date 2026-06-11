@@ -1,0 +1,244 @@
+<style>
+  #progress {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  #progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #333;
+    transition: width 0.1s linear;
+  }
+  #stage-wrap {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: inline-block;
+  }
+  #stage {
+    display: block;
+    transform-origin: top left;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+  #pivot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    transform: translate(-50%, -50%);
+    display: none;
+  }
+  #pivot::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 15px;
+    background: grey;
+    transform: translateX(-50%);
+  }
+  #pivot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 1px;
+    width: 15px;
+    background: grey;
+    transform: translateY(-50%);
+  }
+</style>
+<div id="progress"><div id="progress-bar"></div></div>
+<div id="stage-wrap"><img id="stage"><div id="pivot"></div></div>
+
+<script src="animations.js"></script>
+<script>
+  const DEBUG = false;
+
+  const bar = document.getElementById('progress-bar');
+  const progress = document.getElementById('progress');
+  const stage = document.getElementById('stage');
+  const pivot = document.getElementById('pivot');
+  const wrap = document.getElementById('stage-wrap');
+
+  if (DEBUG) {
+    stage.style.border = '1px solid red';
+    pivot.style.display = 'block';
+  }
+
+  const urls = ANIMATIONS.flatMap(animation => animation.frames.map(frame => frame.url));
+  const total = urls.length;
+  let loaded = 0;
+
+  function onFrameLoaded() {
+    loaded++;
+    bar.style.width = (loaded / total * 100) + '%';
+    if (loaded === total) {
+      progress.style.display = 'none';
+      start();
+    }
+  }
+
+  urls.forEach(url => {
+    const img = new Image();
+    img.onload = onFrameLoaded;
+    img.onerror = onFrameLoaded;
+    img.src = url;
+  });
+
+  let currentAnimation = null;
+  let frameIndex = 0;
+  let direction = 1; // 1 = facing right, -1 = facing left
+  let posX = window.innerWidth / 2;
+  let posY = window.innerHeight / 2;
+  const SPEED = 200; // pixels per second
+  const PROXIMITY_THRESHOLD = 50; // px padding around the sprite to ignore clicks
+
+  function isCloseToImage(x, y) {
+    const rect = stage.getBoundingClientRect();
+    return x >= rect.left - PROXIMITY_THRESHOLD && x <= rect.right + PROXIMITY_THRESHOLD &&
+           y >= rect.top - PROXIMITY_THRESHOLD && y <= rect.bottom + PROXIMITY_THRESHOLD;
+  }
+  let moveRAF = null;
+  let onAnimationEnd = null;
+  let reversed = false;
+
+  function setAnimation(name, onEnd, isReversed) {
+    currentAnimation = ANIMATIONS.find(animation => animation.name === name);
+    frameIndex = 0;
+    onAnimationEnd = onEnd || null;
+    reversed = !!isReversed;
+  }
+
+  function applyPosition() {
+    wrap.style.left = posX + 'px';
+    wrap.style.top = posY + 'px';
+  }
+
+  function moveTo(targetX, targetY, onArrival) {
+    cancelAnimationFrame(moveRAF);
+    let last = null;
+    function step(time) {
+      if (last === null) last = time;
+      const dt = (time - last) / 1000;
+      last = time;
+      const dx = targetX - posX;
+      const dy = targetY - posY;
+      const dist = Math.hypot(dx, dy);
+      const move = SPEED * dt;
+      if (dist <= move || dist === 0) {
+        posX = targetX;
+        posY = targetY;
+        applyPosition();
+        if (onArrival) onArrival();
+        return;
+      }
+      posX += dx / dist * move;
+      posY += dy / dist * move;
+      applyPosition();
+      moveRAF = requestAnimationFrame(step);
+    }
+    moveRAF = requestAnimationFrame(step);
+  }
+
+  let currentState = null;
+
+  function transitionTo(state, ...args) {
+    if (currentState) currentState.deactivate();
+    currentState = state;
+    currentState.activate(...args);
+  }
+
+  const SittingState = {
+    // withTransition replays the stand->sit animation when arriving from a move;
+    // the initial sit (and re-entries) skip it and go straight to the idle loop.
+    activate(withTransition) {
+      if (withTransition) {
+        setAnimation('sit_to_stand', () => setAnimation('sit'), true);
+      } else {
+        setAnimation('sit');
+      }
+    },
+    deactivate() {},
+    onClick(event) {
+      if (isCloseToImage(event.clientX, event.clientY)) return;
+      transitionTo(StandingUpState, event.clientX, event.clientY);
+    }
+  };
+
+  const StandingUpState = {
+    // Plays the stand-up animation once, then heads to the click target.
+    // Clicks during the animation just re-target without restarting it.
+    activate(targetX, targetY) {
+      this.targetX = targetX;
+      this.targetY = targetY;
+      setAnimation('sit_to_stand', () => {
+        transitionTo(MovingState, this.targetX, this.targetY);
+      });
+    },
+    deactivate() {},
+    onClick(event) {
+      this.targetX = event.clientX;
+      this.targetY = event.clientY;
+    }
+  };
+
+  const MovingState = {
+    activate(targetX, targetY) {
+      setAnimation('run');
+      this.runTo(targetX, targetY);
+    },
+    deactivate() {
+      cancelAnimationFrame(moveRAF);
+    },
+    onClick(event) {
+      // already standing/running: just re-target without replaying the stand-up
+      this.runTo(event.clientX, event.clientY);
+    },
+    runTo(targetX, targetY) {
+      direction = targetX < posX ? -1 : 1;
+      moveTo(targetX, targetY, () => transitionTo(SittingState, true));
+    }
+  };
+
+  function start() {
+    transitionTo(SittingState);
+    applyPosition();
+    setInterval(() => {
+      const realIndex = reversed ? currentAnimation.frames.length - 1 - frameIndex : frameIndex;
+      const frame = currentAnimation.frames[realIndex];
+      stage.src = frame.url;
+      if (direction === 1) {
+        stage.style.transform = 'translate(' + (-frame.pivot.x) + 'px, ' + (-frame.pivot.y) + 'px)';
+      } else {
+        stage.style.transform = 'translate(' + frame.pivot.x + 'px, ' + (-frame.pivot.y) + 'px) scaleX(-1)';
+      }
+      frameIndex++;
+      if (frameIndex >= currentAnimation.frames.length) {
+        if (onAnimationEnd) {
+          const callback = onAnimationEnd;
+          onAnimationEnd = null;
+          callback();
+        } else {
+          frameIndex = 0;
+        }
+      }
+    }, 1000 / 12);
+
+    document.addEventListener('click', event => {
+      currentState.onClick(event);
+    });
+  }
+</script>

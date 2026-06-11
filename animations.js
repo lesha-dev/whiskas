@@ -81,7 +81,7 @@ const ANIMATIONS =
         }
       },
       {
-        "url": "catch/12.svg",
+        "url": "catch/11.svg",
         "pivot": {
           "x": 48,
           "y": 37
@@ -116,28 +116,28 @@ const ANIMATIONS =
         }
       },
       {
-        "url": "catch/17.svg",
+        "url": "catch/16.svg",
         "pivot": {
           "x": 46,
           "y": 37
         }
       },
       {
-        "url": "catch/18.svg",
+        "url": "catch/16.svg",
         "pivot": {
           "x": 46,
           "y": 37
         }
       },
       {
-        "url": "catch/19.svg",
+        "url": "catch/16.svg",
         "pivot": {
           "x": 46,
           "y": 37
         }
       },
       {
-        "url": "catch/20.svg",
+        "url": "catch/16.svg",
         "pivot": {
           "x": 46,
           "y": 37
@@ -313,29 +313,29 @@ const ANIMATIONS =
       {
         "url": "run/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 48,
+          "y": 68
         }
       },
       {
         "url": "run/02.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 50,
+          "y": 68
         }
       },
       {
         "url": "run/03.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 50,
+          "y": 70
         }
       },
       {
         "url": "run/04.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 50,
+          "y": 68
         }
       }
     ]
@@ -346,526 +346,526 @@ const ANIMATIONS =
       {
         "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/02.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/03.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
         "url": "sit/04.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 47,
+          "y": 61
         }
       },
       {
-        "url": "sit/05.svg",
+        "url": "sit/04.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 47,
+          "y": 61
         }
       },
       {
-        "url": "sit/06.svg",
+        "url": "sit/04.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 47,
+          "y": 61
         }
       },
       {
         "url": "sit/07.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 44,
+          "y": 65
         }
       },
       {
         "url": "sit/08.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 47,
+          "y": 63
         }
       },
       {
-        "url": "sit/09.svg",
+        "url": "sit/08.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 47,
+          "y": 63
         }
       },
       {
         "url": "sit/10.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 47,
+          "y": 63
         }
       },
       {
-        "url": "sit/11.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 50,
+          "y": 64
         }
       },
       {
-        "url": "sit/12.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/13.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/14.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
         "url": "sit/15.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/16.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/17.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/18.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/19.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/20.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/21.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/22.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/23.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/24.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/25.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/26.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/27.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/28.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/29.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/30.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/31.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/32.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/33.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/34.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/35.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/36.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
         "url": "sit/37.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 62
         }
       },
       {
         "url": "sit/38.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 60
         }
       },
       {
         "url": "sit/39.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 61
         }
       },
       {
         "url": "sit/40.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 48,
+          "y": 62
         }
       },
       {
         "url": "sit/41.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 65
         }
       },
       {
         "url": "sit/42.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 63
         }
       },
       {
         "url": "sit/43.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 63
         }
       },
       {
         "url": "sit/44.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 61
         }
       },
       {
         "url": "sit/45.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 60
         }
       },
       {
         "url": "sit/46.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 60
         }
       },
       {
         "url": "sit/47.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 60
         }
       },
       {
         "url": "sit/48.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 48,
+          "y": 65
         }
       },
       {
         "url": "sit/49.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 48,
+          "y": 65
         }
       },
       {
-        "url": "sit/50.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/51.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/52.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
         "url": "sit/53.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/54.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/55.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/56.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/57.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/58.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/59.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/60.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/61.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/62.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/63.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/64.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/65.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/66.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/67.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/68.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/69.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/70.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/71.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/72.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/73.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/74.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
-        "url": "sit/75.svg",
+        "url": "sit/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       }
     ]
@@ -914,161 +914,161 @@ const ANIMATIONS =
     "name": "sit_to_sleep",
     "frames": [
       {
-        "url": "sit_to_sleep2/01.svg",
+        "url": "sit_to_sleep/01.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/02.svg",
+        "url": "sit_to_sleep/02.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/03.svg",
+        "url": "sit_to_sleep/03.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/04.svg",
+        "url": "sit_to_sleep/04.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/05.svg",
+        "url": "sit_to_sleep/04.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/06.svg",
+        "url": "sit_to_sleep/04.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/07.svg",
+        "url": "sit_to_sleep/07.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/08.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/09.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/10.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/11.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/12.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/13.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/14.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/15.svg",
+        "url": "sit_to_sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/16.svg",
+        "url": "sit_to_sleep/16.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/17.svg",
+        "url": "sit_to_sleep/17.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/18.svg",
+        "url": "sit_to_sleep/18.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/19.svg",
+        "url": "sit_to_sleep/19.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/20.svg",
+        "url": "sit_to_sleep/20.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/21.svg",
+        "url": "sit_to_sleep/21.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/22.svg",
+        "url": "sit_to_sleep/22.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sit_to_sleep2/23.svg",
+        "url": "sit_to_sleep/23.svg",
         "pivot": {
           "x": 45,
           "y": 45
@@ -1082,50 +1082,50 @@ const ANIMATIONS =
       {
         "url": "sit_to_stand/01.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 49,
+          "y": 64
         }
       },
       {
         "url": "sit_to_stand/02.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 47,
+          "y": 64
         }
       },
       {
         "url": "sit_to_stand/03.svg",
         "pivot": {
           "x": 45,
-          "y": 45
+          "y": 65
         }
       },
       {
         "url": "sit_to_stand/04.svg",
         "pivot": {
           "x": 45,
-          "y": 45
+          "y": 69
         }
       },
       {
         "url": "sit_to_stand/05.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 48,
+          "y": 71
         }
       },
       {
         "url": "sit_to_stand/06.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 51,
+          "y": 71
         }
       },
       {
         "url": "sit_to_stand/07.svg",
         "pivot": {
-          "x": 45,
-          "y": 45
+          "x": 50,
+          "y": 71
         }
       }
     ]
@@ -1134,168 +1134,257 @@ const ANIMATIONS =
     "name": "sleep",
     "frames": [
       {
-        "url": "sleep3/01.svg",
+        "url": "sleep/01.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/02.svg",
+        "url": "sleep/02.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/03.svg",
+        "url": "sleep/03.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/04.svg",
+        "url": "sleep/04.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/05.svg",
+        "url": "sleep/05.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/06.svg",
+        "url": "sleep/06.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/07.svg",
+        "url": "sleep/07.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/08.svg",
+        "url": "sleep/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/09.svg",
+        "url": "sleep/09.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/10.svg",
+        "url": "sleep/10.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/11.svg",
+        "url": "sleep/11.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/12.svg",
+        "url": "sleep/12.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      }
+    ]
+  },
+  {
+    "name": "sleep_to_sit",
+    "frames": [
+      {
+        "url": "sleep_to_sit/01.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/13.svg",
+        "url": "sleep_to_sit/02.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/14.svg",
+        "url": "sleep_to_sit/02.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/15.svg",
+        "url": "sleep_to_sit/04.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/16.svg",
+        "url": "sleep_to_sit/05.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/17.svg",
+        "url": "sleep_to_sit/06.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/18.svg",
+        "url": "sleep_to_sit/07.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/19.svg",
+        "url": "sleep_to_sit/08.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/20.svg",
+        "url": "sleep_to_sit/09.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/21.svg",
+        "url": "sleep_to_sit/10.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/22.svg",
+        "url": "sleep_to_sit/11.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/23.svg",
+        "url": "sleep_to_sit/12.svg",
         "pivot": {
           "x": 45,
           "y": 45
         }
       },
       {
-        "url": "sleep3/24.svg",
+        "url": "sleep_to_sit/13.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/12.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/13.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/12.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/13.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/18.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/19.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/20.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/21.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/22.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/23.svg",
+        "pivot": {
+          "x": 45,
+          "y": 45
+        }
+      },
+      {
+        "url": "sleep_to_sit/24.svg",
         "pivot": {
           "x": 45,
           "y": 45
