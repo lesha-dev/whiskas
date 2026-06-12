@@ -391,9 +391,11 @@
 
     <!-- Playback row -->
     <div class="ctrl-group full playback-row">
-      <button class="icon-btn" id="prev-btn">&#8592; Prev</button>
-      <button id="play-btn">⏸ PAUSE</button>
-      <button class="icon-btn" id="next-btn">Next &#8594;</button>
+      <button class="icon-btn" id="start-btn">&lt;&lt;</button>
+      <button class="icon-btn" id="prev-btn">&lt;</button>
+      <button id="play-btn">||</button>
+      <button class="icon-btn" id="next-btn">&gt;</button>
+      <button class="icon-btn" id="end-btn">&gt;&gt;</button>
     </div>
 
     <!-- Counter -->
@@ -403,9 +405,9 @@
     <div class="ctrl-group full inline-label-row">
       <label>Pivot X</label>
       <div class="stepper-row">
-        <button class="step-btn" data-axis="x" data-delta="-1">−</button>
+        <button class="step-btn" data-axis="x" data-delta="1">←</button>
         <input type="number" id="shift-x" value="0">
-        <button class="step-btn" data-axis="x" data-delta="1">+</button>
+        <button class="step-btn" data-axis="x" data-delta="-1">→</button>
       </div>
     </div>
 
@@ -413,9 +415,9 @@
     <div class="ctrl-group full inline-label-row">
       <label>Pivot Y</label>
       <div class="stepper-row">
-        <button class="step-btn" data-axis="y" data-delta="-1">−</button>
+        <button class="step-btn" data-axis="y" data-delta="-1">↓</button>
         <input type="number" id="shift-y" value="0">
-        <button class="step-btn" data-axis="y" data-delta="1">+</button>
+        <button class="step-btn" data-axis="y" data-delta="1">↑</button>
       </div>
     </div>
 
@@ -455,7 +457,9 @@
   const fpsSelect     = document.getElementById('fps-select');
   const playBtn       = document.getElementById('play-btn');
   const prevBtn       = document.getElementById('prev-btn');
+  const startBtn      = document.getElementById('start-btn');
   const nextBtn       = document.getElementById('next-btn');
+  const endBtn        = document.getElementById('end-btn');
   const curFrameEl    = document.getElementById('cur-frame');
   const totalFramesEl = document.getElementById('total-frames');
   const shiftXInput   = document.getElementById('shift-x');
@@ -516,7 +520,7 @@
           preloadWrap.style.display = 'none';
           stageWrap.style.display = 'flex';
           playing = true;
-          playBtn.textContent = '⏸ PAUSE';
+          playBtn.textContent = '||';
           showFrame(0);
           startAnimation();
         }
@@ -611,7 +615,7 @@
     if (playing) {
       playing = false;
       stopAnimation();
-      playBtn.textContent = '▶ PLAY';
+      playBtn.textContent = '▶';
     }
   }
 
@@ -637,10 +641,10 @@
     playing = !playing;
     if (playing) {
       startAnimation();
-      playBtn.textContent = '⏸ PAUSE';
+      playBtn.textContent = '||';
     } else {
       stopAnimation();
-      playBtn.textContent = '▶ PLAY';
+      playBtn.textContent = '▶';
     }
   });
 
@@ -649,9 +653,19 @@
     showFrame(currentIndex - 1);
   });
 
+  startBtn.addEventListener('click', () => {
+    pausePlayback();
+    showFrame(0);
+  });
+
   nextBtn.addEventListener('click', () => {
     pausePlayback();
     showFrame(currentIndex + 1);
+  });
+
+  endBtn.addEventListener('click', () => {
+    pausePlayback();
+    showFrame(frames.length-1);
   });
 
   shiftXInput.addEventListener('input', () => {
