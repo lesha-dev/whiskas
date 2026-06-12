@@ -1,346 +1,6 @@
 const ANIMATIONS = 
 [
-  {
-    "name": "catch",
-    "frames": [
-      {
-        "url": "catch/01.svg",
-        "pivot": {
-          "x": 48,
-          "y": 51
-        }
-      },
-      {
-        "url": "catch/02.svg",
-        "pivot": {
-          "x": 49,
-          "y": 51
-        }
-      },
-      {
-        "url": "catch/03.svg",
-        "pivot": {
-          "x": 40,
-          "y": 48
-        }
-      },
-      {
-        "url": "catch/04.svg",
-        "pivot": {
-          "x": 40,
-          "y": 48
-        }
-      },
-      {
-        "url": "catch/05.svg",
-        "pivot": {
-          "x": 38,
-          "y": 50
-        }
-      },
-      {
-        "url": "catch/06.svg",
-        "pivot": {
-          "x": 38,
-          "y": 50
-        }
-      },
-      {
-        "url": "catch/07.svg",
-        "pivot": {
-          "x": 29,
-          "y": 67
-        }
-      },
-      {
-        "url": "catch/08.svg",
-        "pivot": {
-          "x": 29,
-          "y": 67
-        }
-      },
-      {
-        "url": "catch/09.svg",
-        "pivot": {
-          "x": 48,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/10.svg",
-        "pivot": {
-          "x": 48,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/11.svg",
-        "pivot": {
-          "x": 48,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/11.svg",
-        "pivot": {
-          "x": 48,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/13.svg",
-        "pivot": {
-          "x": 48,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/14.svg",
-        "pivot": {
-          "x": 48,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/15.svg",
-        "pivot": {
-          "x": 48,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/16.svg",
-        "pivot": {
-          "x": 46,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/16.svg",
-        "pivot": {
-          "x": 46,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/16.svg",
-        "pivot": {
-          "x": 46,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/16.svg",
-        "pivot": {
-          "x": 46,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/16.svg",
-        "pivot": {
-          "x": 46,
-          "y": 37
-        }
-      },
-      {
-        "url": "catch/21.svg",
-        "pivot": {
-          "x": 46,
-          "y": 44
-        }
-      },
-      {
-        "url": "catch/22.svg",
-        "pivot": {
-          "x": 45,
-          "y": 56
-        }
-      },
-      {
-        "url": "catch/23.svg",
-        "pivot": {
-          "x": 43,
-          "y": 56
-        }
-      },
-      {
-        "url": "catch/24.svg",
-        "pivot": {
-          "x": 45,
-          "y": 65
-        }
-      },
-      {
-        "url": "catch/25.svg",
-        "pivot": {
-          "x": 47,
-          "y": 66
-        }
-      }
-    ]
-  },
-  {
-    "name": "crawl",
-    "frames": [
-      {
-        "url": "crawl/01.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "crawl/02.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "crawl/03.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      }
-    ]
-  },
-  {
-    "name": "hang",
-    "frames": [
-      {
-        "url": "hang/01.svg",
-        "pivot": {
-          "x": 22,
-          "y": 5
-        }
-      },
-      {
-        "url": "hang/02.svg",
-        "pivot": {
-          "x": 23,
-          "y": 5
-        }
-      }
-    ]
-  },
-  {
-    "name": "hunt",
-    "frames": [
-      {
-        "url": "hunt/01.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/02.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/03.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/04.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/05.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/06.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/07.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/08.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/09.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/10.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      },
-      {
-        "url": "hunt/11.svg",
-        "pivot": {
-          "x": 45,
-          "y": 45
-        }
-      }
-    ]
-  },
-  {
-    "name": "run",
-    "frames": [
-      {
-        "url": "run/01.svg",
-        "pivot": {
-          "x": 48,
-          "y": 68
-        }
-      },
-      {
-        "url": "run/02.svg",
-        "pivot": {
-          "x": 50,
-          "y": 68
-        }
-      },
-      {
-        "url": "run/03.svg",
-        "pivot": {
-          "x": 50,
-          "y": 70
-        }
-      },
-      {
-        "url": "run/04.svg",
-        "pivot": {
-          "x": 50,
-          "y": 68
-        }
-      }
-    ]
-  },
-  {
+    {
     "name": "sit",
     "frames": [
       {
@@ -871,41 +531,88 @@ const ANIMATIONS =
     ]
   },
   {
-    "name": "sit_to_hang",
+    "name": "sit_to_stand",
     "frames": [
       {
-        "url": "sit_to_hang/01.svg",
+        "url": "sit_to_stand/01.svg",
         "pivot": {
           "x": 49,
           "y": 64
         }
       },
       {
-        "url": "sit_to_hang/02.svg",
+        "url": "sit_to_stand/02.svg",
+        "pivot": {
+          "x": 48,
+          "y": 64
+        }
+      },
+      {
+        "url": "sit_to_stand/03.svg",
+        "pivot": {
+          "x": 44,
+          "y": 64
+        }
+      },
+      {
+        "url": "sit_to_stand/04.svg",
         "pivot": {
           "x": 42,
-          "y": 45
+          "y": 65
         }
       },
       {
-        "url": "sit_to_hang/03.svg",
+        "url": "sit_to_stand/05.svg",
         "pivot": {
-          "x": 30,
-          "y": 2
+          "x": 44,
+          "y": 67
         }
       },
       {
-        "url": "sit_to_hang/04.svg",
+        "url": "sit_to_stand/06.svg",
         "pivot": {
-          "x": 21,
-          "y": 3
+          "x": 46,
+          "y": 65
         }
       },
       {
-        "url": "sit_to_hang/05.svg",
+        "url": "sit_to_stand/07.svg",
         "pivot": {
-          "x": 23,
-          "y": 3
+          "x": 45,
+          "y": 65
+        }
+      }
+    ]
+  },
+  {
+    "name": "run",
+    "frames": [
+      {
+        "url": "run/01.svg",
+        "pivot": {
+          "x": 48,
+          "y": 68
+        }
+      },
+      {
+        "url": "run/02.svg",
+        "pivot": {
+          "x": 50,
+          "y": 68
+        }
+      },
+      {
+        "url": "run/03.svg",
+        "pivot": {
+          "x": 50,
+          "y": 70
+        }
+      },
+      {
+        "url": "run/04.svg",
+        "pivot": {
+          "x": 50,
+          "y": 68
         }
       }
     ]
@@ -1072,60 +779,6 @@ const ANIMATIONS =
         "pivot": {
           "x": 29,
           "y": 34
-        }
-      }
-    ]
-  },
-  {
-    "name": "sit_to_stand",
-    "frames": [
-      {
-        "url": "sit_to_stand/01.svg",
-        "pivot": {
-          "x": 49,
-          "y": 64
-        }
-      },
-      {
-        "url": "sit_to_stand/02.svg",
-        "pivot": {
-          "x": 48,
-          "y": 64
-        }
-      },
-      {
-        "url": "sit_to_stand/03.svg",
-        "pivot": {
-          "x": 44,
-          "y": 64
-        }
-      },
-      {
-        "url": "sit_to_stand/04.svg",
-        "pivot": {
-          "x": 42,
-          "y": 65
-        }
-      },
-      {
-        "url": "sit_to_stand/05.svg",
-        "pivot": {
-          "x": 44,
-          "y": 67
-        }
-      },
-      {
-        "url": "sit_to_stand/06.svg",
-        "pivot": {
-          "x": 46,
-          "y": 65
-        }
-      },
-      {
-        "url": "sit_to_stand/07.svg",
-        "pivot": {
-          "x": 45,
-          "y": 65
         }
       }
     ]
@@ -1510,5 +1163,405 @@ const ANIMATIONS =
         }
       }
     ]
-  }
+  },
+  {
+    "name": "sit_to_hang",
+    "frames": [
+      {
+        "url": "sit_to_hang/01.svg",
+        "pivot": {
+          "x": 49,
+          "y": 64
+        }
+      },
+      {
+        "url": "sit_to_hang/02.svg",
+        "pivot": {
+          "x": 42,
+          "y": 45
+        }
+      },
+      {
+        "url": "sit_to_hang/03.svg",
+        "pivot": {
+          "x": 30,
+          "y": 2
+        }
+      },
+      {
+        "url": "sit_to_hang/04.svg",
+        "pivot": {
+          "x": 21,
+          "y": 3
+        }
+      },
+      {
+        "url": "sit_to_hang/05.svg",
+        "pivot": {
+          "x": 23,
+          "y": 3
+        }
+      }
+    ]
+  },
+  {
+    "name": "hang",
+    "frames": [
+      {
+        "url": "hang/01.svg",
+        "pivot": {
+          "x": 22,
+          "y": 5
+        }
+      },
+      {
+        "url": "hang/02.svg",
+        "pivot": {
+          "x": 23,
+          "y": 5
+        }
+      }
+    ]
+  },
+  {
+    "name": "sit_to_crawl",
+    "frames": [
+      {
+        "url": "hunt/01.svg",
+        "pivot": {
+          "x": 49,
+          "y": 66
+        }
+      },
+      {
+        "url": "hunt/02.svg",
+        "pivot": {
+          "x": 48,
+          "y": 66
+        }
+      },
+      {
+        "url": "hunt/03.svg",
+        "pivot": {
+          "x": 54,
+          "y": 57
+        }
+      },
+      {
+        "url": "hunt/04.svg",
+        "pivot": {
+          "x": 54,
+          "y": 57
+        }
+      },
+      {
+        "url": "hunt/05.svg",
+        "pivot": {
+          "x": 54,
+          "y": 57
+        }
+      },
+      {
+        "url": "hunt/06.svg",
+        "pivot": {
+          "x": 54,
+          "y": 57
+        }
+      },
+      {
+        "url": "hunt/07.svg",
+        "pivot": {
+          "x": 54,
+          "y": 57
+        }
+      },
+      {
+        "url": "hunt/08.svg",
+        "pivot": {
+          "x": 53,
+          "y": 50
+        }
+      },
+      {
+        "url": "hunt/09.svg",
+        "pivot": {
+          "x": 57,
+          "y": 47
+        }
+      },
+      {
+        "url": "hunt/10.svg",
+        "pivot": {
+          "x": 57,
+          "y": 52
+        }
+      },
+      {
+        "url": "hunt/11.svg",
+        "pivot": {
+          "x": 59,
+          "y": 52
+        }
+      }
+    ]
+  },
+  
+  {
+    "name": "crawl",
+    "frames": [
+      {
+        "url": "crawl/01.svg",
+        "pivot": {
+          "x": 58,
+          "y": 51
+        }
+      },
+      {
+        "url": "crawl/02.svg",
+        "pivot": {
+          "x": 56,
+          "y": 51
+        }
+      },
+      {
+        "url": "crawl/03.svg",
+        "pivot": {
+          "x": 56,
+          "y": 51
+        }
+      }
+    ]
+  },
+  {
+    "name": "crawl_to_sit",
+    "frames": [
+      {
+        "url": "hunt/11.svg",
+        "pivot": {
+          "x": 59,
+          "y": 52
+        }
+      },
+      {
+        "url": "hunt/10.svg",
+        "pivot": {
+          "x": 57,
+          "y": 52
+        }
+      },
+      {
+        "url": "hunt/09.svg",
+        "pivot": {
+          "x": 57,
+          "y": 47
+        }
+      },
+      {
+        "url": "hunt/08.svg",
+        "pivot": {
+          "x": 53,
+          "y": 50
+        }
+      },
+      {
+        "url": "hunt/07.svg",
+        "pivot": {
+          "x": 54,
+          "y": 57
+        }
+      },
+      {
+        "url": "hunt/01.svg",
+        "pivot": {
+          "x": 49,
+          "y": 66
+        }
+      }
+    ]
+  },
+  {
+    "name": "catch",
+    "frames": [
+      {
+        "url": "catch/01.svg",
+        "pivot": {
+          "x": 60,
+          "y": 52
+        }
+      },
+      {
+        "url": "catch/02.svg",
+        "pivot": {
+          "x": 60,
+          "y": 52
+        }
+      },
+      {
+        "url": "catch/03.svg",
+        "pivot": {
+          "x": 55,
+          "y": 59
+        }
+      },
+      {
+        "url": "catch/04.svg",
+        "pivot": {
+          "x": 55,
+          "y": 77
+        }
+      },
+      {
+        "url": "catch/05.svg",
+        "pivot": {
+          "x": 57,
+          "y": 78
+        }
+      },
+      {
+        "url": "catch/06.svg",
+        "pivot": {
+          "x": 57,
+          "y": 70
+        }
+      },
+      {
+        "url": "catch/07.svg",
+        "pivot": {
+          "x": 50,
+          "y": 83
+        }
+      },
+      {
+        "url": "catch/08.svg",
+        "pivot": {
+          "x": 50,
+          "y": 68
+        }
+      },
+      {
+        "url": "catch/09.svg",
+        "pivot": {
+          "x": 70,
+          "y": 39
+        }
+      }
+    ]
+  },
+  {
+    "name": "catch_to_sit",
+    "frames": [
+      {
+        "url": "catch/10.svg",
+        "pivot": {
+          "x": 70,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/11.svg",
+        "pivot": {
+          "x": 70,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/11.svg",
+        "pivot": {
+          "x": 70,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/13.svg",
+        "pivot": {
+          "x": 70,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/14.svg",
+        "pivot": {
+          "x": 70,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/15.svg",
+        "pivot": {
+          "x": 70,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/16.svg",
+        "pivot": {
+          "x": 67,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/16.svg",
+        "pivot": {
+          "x": 67,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/16.svg",
+        "pivot": {
+          "x": 67,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/16.svg",
+        "pivot": {
+          "x": 67,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/16.svg",
+        "pivot": {
+          "x": 67,
+          "y": 39
+        }
+      },
+      {
+        "url": "catch/21.svg",
+        "pivot": {
+          "x": 66,
+          "y": 45
+        }
+      },
+      {
+        "url": "catch/22.svg",
+        "pivot": {
+          "x": 65,
+          "y": 57
+        }
+      },
+      {
+        "url": "catch/23.svg",
+        "pivot": {
+          "x": 53,
+          "y": 55
+        }
+      },
+      {
+        "url": "catch/24.svg",
+        "pivot": {
+          "x": 46,
+          "y": 63
+        }
+      },
+      {
+        "url": "catch/25.svg",
+        "pivot": {
+          "x": 48,
+          "y": 65
+        }
+      }
+    ]
+  },
 ]

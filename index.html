@@ -109,8 +109,11 @@
   let direction = 1; // 1 = facing right, -1 = facing left
   let posX = window.innerWidth / 2;
   let posY = window.innerHeight / 2;
-  const SPEED = 200; // pixels per second
+  const SPEED_RUN = 200; // pixels per second
+  const SPEED_CRAWL = 50; // pixels per second
   const PROXIMITY_THRESHOLD = 50; // px padding around the sprite to ignore clicks
+  const CATCH_STOP_DISTANCE = 200; // px before pointer where crawl stops
+  let pointerX = 0, pointerY = 0;
 
   function isCloseToImage(x, y) {
     const rect = stage.getBoundingClientRect();
@@ -123,6 +126,8 @@
   let onAnimationTick = null;
   let reversed = false;
   let suppressNextClick = false;
+  let paused = false;
+  let isPointerDown = false;
 
   function setAnimation(name, onEnd, isReversed) {
     currentAnimation = ANIMATIONS.find(animation => animation.name === name);
@@ -136,7 +141,37 @@
     wrap.style.top = posY + 'px';
   }
 
-  function moveTo(targetX, targetY, onArrival) {
+  function moveToEased(targetX, targetY, speed, onArrival) {
+    cancelAnimationFrame(moveRAF);
+    const startX = posX;
+    const startY = posY;
+    const dist = Math.hypot(targetX - startX, targetY - startY);
+    if (dist === 0) { if (onArrival) onArrival(); return; }
+    const duration = dist / speed;
+    let elapsed = 0;
+    let last = null;
+    function step(time) {
+      if (last === null) last = time;
+      elapsed += (time - last) / 1000;
+      last = time;
+      if (elapsed >= duration) {
+        posX = targetX;
+        posY = targetY;
+        applyPosition();
+        if (onArrival) onArrival();
+        return;
+      }
+      const t = elapsed / duration;
+      const eased = 1 - (1 - t) * (1 - t) * (1 - t);
+      posX = startX + (targetX - startX) * eased;
+      posY = startY + (targetY - startY) * eased;
+      applyPosition();
+      moveRAF = requestAnimationFrame(step);
+    }
+    moveRAF = requestAnimationFrame(step);
+  }
+
+  function moveTo(targetX, targetY, speed, onArrival) {
     cancelAnimationFrame(moveRAF);
     let last = null;
     function step(time) {
@@ -146,7 +181,7 @@
       const dx = targetX - posX;
       const dy = targetY - posY;
       const dist = Math.hypot(dx, dy);
-      const move = SPEED * dt;
+      const move = speed * dt;
       if (dist <= move || dist === 0) {
         posX = targetX;
         posY = targetY;
@@ -213,6 +248,91 @@
     onClick(event) {}
   };
 
+  const CatchState = {
+    activate(targetX, targetY, pointerType) {
+      this.catchX = targetX;
+      this.catchY = targetY;
+      this.isTouch = pointerType === 'touch';
+      direction = targetX < posX ? -1 : 1;
+      setAnimation('sit_to_crawl', () => {
+        onAnimationLoop = () => this.crawlTo(this.catchX, this.catchY);
+        setAnimation('crawl');
+        this.crawlTo(this.catchX, this.catchY);
+      });
+    },
+    crawlTo(targetX, targetY) {
+      const dx = targetX - posX;
+      const dy = targetY - posY;
+      const dist = Math.hypot(dx, dy);
+      direction = dx < 0 ? -1 : 1;
+      if (dist <= CATCH_STOP_DISTANCE) {
+        this.finish();
+        return;
+      }
+      const ratio = (dist - CATCH_STOP_DISTANCE) / dist;
+      moveToEased(posX + dx * ratio, posY + dy * ratio, SPEED_CRAWL, () => this.finish());
+    },
+    finish() {
+      onAnimationLoop = null;
+      cancelAnimationFrame(moveRAF);
+      paused = true;
+      this.pauseTimer = setTimeout(() => {
+        this.pauseTimer = null;
+        paused = false;
+        const cursorMoved = Math.hypot(pointerX - this.catchX, pointerY - this.catchY) > 50;
+        if (cursorMoved && !(this.isTouch && isPointerDown)) {
+          setAnimation('crawl_to_sit', () => transitionTo(SittingState));
+        } else {
+          transitionTo(JumpState, this.catchX, this.catchY, this.isTouch);
+        }
+      }, 2000);
+    },
+    deactivate() {
+      onAnimationLoop = null;
+      cancelAnimationFrame(moveRAF);
+      if (this.pauseTimer) { clearTimeout(this.pauseTimer); this.pauseTimer = null; }
+      paused = false;
+    },
+    onClick(event) {}
+  };
+
+  const JumpState = {
+    activate(catchX, catchY, isTouch) {
+      const animation = ANIMATIONS.find(a => a.name === 'catch');
+      const targetX = catchX + 8;
+      const targetY = catchY + 8;
+      const dx = (targetX - posX) / animation.frames.length;
+      const dy = (targetY - posY) / animation.frames.length;
+      direction = targetX < posX ? -1 : 1;
+      this.isTouch = isTouch;
+      onAnimationTick = () => {
+        posX += dx;
+        posY += dy;
+        applyPosition();
+      };
+      setAnimation('catch', () => transitionTo(CatchToSitState, this.isTouch));
+    },
+    deactivate() { onAnimationTick = null; },
+    onClick(event) {}
+  };
+
+  const CatchToSitState = {
+    activate(isTouch) {
+      if (!isTouch) {
+        document.body.style.cursor = 'none';
+        document.addEventListener('pointermove', function showCursor(e) {
+          if (e.pointerType === 'mouse') {
+            document.body.style.cursor = '';
+            document.removeEventListener('pointermove', showCursor);
+          }
+        });
+      }
+      setAnimation('catch_to_sit', () => transitionTo(SittingState));
+    },
+    deactivate() {},
+    onClick(event) {}
+  };
+
   const HangingState = {
     activate() {
       setAnimation('sit_to_hang', () => setAnimation('hang'));
@@ -268,7 +388,7 @@
     },
     runTo(targetX, targetY) {
       direction = targetX < posX ? -1 : 1;
-      moveTo(targetX, targetY, () => transitionTo(SittingState, true));
+      moveTo(targetX, targetY, SPEED_RUN, () => transitionTo(SittingState, true));
     }
   };
 
@@ -282,6 +402,7 @@
       stage.style.transform = 'translate(' + frame.pivot.x + 'px, ' + (-frame.pivot.y) + 'px) scaleX(-1)';
     }
     if (onAnimationTick) onAnimationTick();
+    if (paused) return;
     frameIndex++;
     if (frameIndex >= currentAnimation.frames.length) {
       if (onAnimationEnd) {
@@ -329,6 +450,37 @@
         }
       }
 
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp, { once: true });
+    });
+
+    document.addEventListener('pointermove', event => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+    });
+
+    document.addEventListener('pointerdown', () => { isPointerDown = true; });
+    document.addEventListener('pointerup', () => { isPointerDown = false; });
+    document.addEventListener('pointercancel', () => { isPointerDown = false; });
+
+    document.addEventListener('pointerdown', event => {
+      if (currentState !== SittingState) return;
+      const startX = event.clientX;
+      const startY = event.clientY;
+      let moved = false;
+      const pointerType = event.pointerType;
+      const holdTimer = setTimeout(() => {
+        if (moved || currentState !== SittingState) return;
+        suppressNextClick = true;
+        transitionTo(CatchState, startX, startY, pointerType);
+      }, 300);
+      function onMove(e) {
+        if (Math.hypot(e.clientX - startX, e.clientY - startY) > 10) moved = true;
+      }
+      function onUp() {
+        clearTimeout(holdTimer);
+        document.removeEventListener('pointermove', onMove);
+      }
       document.addEventListener('pointermove', onMove);
       document.addEventListener('pointerup', onUp, { once: true });
     });
